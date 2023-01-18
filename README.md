@@ -66,11 +66,6 @@ O cenário de testes é executado manualmente, para executar é necessário inst
 pip install -R requirements.txt
 ```
 
-Em seguida, é necessário subir o serviço do postgres, mesmo que não o use diretamente para executar os testes:
-``` bash
-make pg
-```
-
 Finalmente, para executar os testes:
 ``` bash
 pytest .
