@@ -5,7 +5,7 @@ import os
 
 
 metadata_tags = [
-    {'name':"Users", 'description': "These are the users"},
+    {'name': "Users", 'description': "These are the users"},
 ]
 
 if os.getenv("API_ENV") != 'test':

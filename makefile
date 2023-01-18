@@ -9,3 +9,6 @@ stop:
 
 down:
 	docker-compose down --volumes
+
+pg:
+	docker-compose up codhab-db
