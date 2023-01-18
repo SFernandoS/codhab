@@ -1,0 +1,49 @@
+version: '3.5'
+services:
+    codhab-db:
+        container_name: codhab-db
+        restart: always
+        image: postgres:11
+        ports:
+            - 5431:5432
+        env_file: dev-env
+        networks:
+            - codhab-network
+        volumes:
+            - codhab-pg-data:/var/lib/postgresql/data
+        healthcheck:
+            test: [ "CMD-SHELL", "psql -U postgres", "pg_isready" ]
+            interval: 10s
+            timeout: 5s
+            retries: 5
+
+    codhab-api:
+        container_name: codhab-api
+        restart: always
+        build:
+            context: .
+            dockerfile: Dockerfile
+        env_file: dev-env
+        ports:
+            - 8000:8000
+        networks:
+          - codhab-network
+        volumes:
+            - .:/codhab-network
+            - pip_cache:/usr/local/lib/python3.10/site-packages
+        depends_on:
+            codhab-db:
+                condition: service_healthy
+        healthcheck:
+            test: "curl -f localhost:8000"
+            interval: 5s
+            timeout: 30s
+            retries: 3
+
+volumes:
+    codhab-pg-data: {}
+    pip_cache:
+
+networks:
+  codhab-network:
+    external: true
